@@ -1,25 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import {
+  Routes,
+  Route
+} from 'react-router-dom'
+import styled from 'styled-components'
+
+import './App.css'
+import Home from './container/home'
+import Header from './component/header'
+import { BlockchainContext } from './contexts'
+import useBlockchain from './hooks/useBlockchain'
+
+const AppContainer = styled.div`
+  background-color: #FFF;
+  min-height: 100vh;
+`
 
 function App() {
+  const { blocknumber, blockInfo } = useBlockchain()
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <BlockchainContext.Provider value={{ blocknumber, blockInfo }}>
+      <AppContainer>
+        <Header />
+        <Routes>
+          <Route path='/' element={<Home />}>
+          </Route>
+        </Routes>
+      </AppContainer>
+    </BlockchainContext.Provider>
+  )
 }
 
-export default App;
+export default App
